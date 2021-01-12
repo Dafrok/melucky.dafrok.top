@@ -1,0 +1,25 @@
+{
+  "name": "melucky",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "dev": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dafrok/melucky.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dafrok/melucky/issues"
+  },
+  "homepage": "https://github.com/Dafrok/melucky#readme",
+  "devDependencies": {
+    "pako": "^2.0.3",
+    "parcel-bundler": "^1.12.4",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}
