@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/Dafrok/melucky#readme",
   "devDependencies": {
+    "bulma": "^0.9.1",
     "pako": "^2.0.3",
     "parcel-bundler": "^1.12.4",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-flip-toolkit": "^7.0.13"
   }
 }

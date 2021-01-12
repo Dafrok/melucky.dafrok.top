@@ -6,6 +6,7 @@ import 'regenerator-runtime/runtime';
 import * as React from 'react';
 import {render} from 'react-dom';
 import App from './components/index';
+import 'bulma';
 
 const $app = document.createElement('div');
 document.body.appendChild($app);
