@@ -4,13 +4,34 @@
  */
 import * as React from 'react';
 import Connection from '../lib/connection';
+import Card from './card';
+import cardImg from '../resources/card.png'
+import './index.styl';
 
 const {useState, useRef, useEffect} = React;
+
+function createMock(num) {
+    const data = [];
+    for (let i = 0; i < num; i++) {
+        data.push({
+            uid: Math.random(),
+            uname: `mock-${i}`,
+            avatar: cardImg,
+            selected: false,
+            sign: parseInt(Math.random() * 4, 10),
+            number: parseInt(Math.random() * 13, 10),
+        })
+    }
+    return data;
+}
 
 export default function app() {
     const [roomId, setRoomId] = useState(null);
     const [connectionState, setConnectionState] = useState(0);
     const [danmu, setDanmu] = useState([]);
+    const [members, setMembers] = useState([
+        ...createMock(100)
+    ]);
 
     const $ref = useRef(null);
 
@@ -26,18 +47,33 @@ export default function app() {
             setConnectionState(0);
         }
         connection.onDanmu = function (res) {
-            danmu.unshift({
-                id: res.info[0][7],
-                uid: res.info[2][0],
-                uname: res.info[2][1],
-                text: res.info[1]
-            });
-            setDanmu([...danmu])
+            // danmu.unshift({
+            //     id: res.info[0][7],
+            //     uid: res.info[2][0],
+            //     uname: res.info[2][1],
+            //     text: res.info[1]
+            // });
+            // if (danmu.length > 100) {
+            //     danmu.pop();
+            // }
+            // setDanmu([...danmu]);
+
             // var utterThis = new SpeechSynthesisUtterance(`${res.info[2][1]}说: ${res.info[1]}`);
             // var synth = window.speechSynthesis;
             // synth.speak(utterThis);
         }
-        connection.onGift = function (res) { 
+        connection.onGift = function (res) {
+            console.log(res);
+            if (res.data.giftId === 30607) {
+                const {uid, uname, face} = res.data;
+                members.push({
+                    uid,
+                    uname,
+                    avatar: face,
+                    selected: false
+                });
+                setMembers([...members]);
+            }
         }
         connection.connect();
         return connection.disconnect;
@@ -94,9 +130,16 @@ export default function app() {
                 </div>
             </div>
         </nav>
-
-        <div>
-            {danmu.map((item, index) => <div key={index}>{item.uname}：{item.text}</div>)}
+        <div className="playground">
+            {
+                members.map(item => <Card key={item.uid} {...item} onClick={e => {
+                    item.selected = !item.selected;
+                    setMembers([...members]);
+                }} />)
+            }
         </div>
+        {/* <div>
+            {danmu.map((item, index) => <div key={index}>{item.uname}：{item.text}</div>)}
+        </div> */}
     </div>;
 }
