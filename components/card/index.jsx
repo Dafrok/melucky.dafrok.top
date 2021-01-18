@@ -4,9 +4,7 @@
  */
 import * as React from 'react';
 import './card.styl';
-import {signs, numbers} from '../../lib/config'
-
-const {useState, useRef, useEffect} = React;
+import {signs, numbers} from '../../lib/config';
 
 export default function card({avatar, uname, uid, sign, number, selected, dead, onClick}) {
     return <div className={`poker-card ${dead ? 'dead' : 'unselected'}`} onClick={onClick}>

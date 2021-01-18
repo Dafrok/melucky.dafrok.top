@@ -12,6 +12,12 @@
     align-items center
     color #fff
     font-size 48px
+    z-index 1000
+    .poker
+      &.red
+        color #f00
+      &.black
+        color #000
     .avatar
       width 200px
       height 200px
@@ -23,8 +29,12 @@
       animation shine-box 2s infinite
     .name
       animation shine-text 2s infinite
+    .poker
+      font-size 48px
+      text-shadow 0 0 5px #fff
     .avatar,
-    .name
+    .name,
+    .poker
       margin-bottom 40px
     .again
       font-size 24px
@@ -40,7 +50,17 @@
       align-items center
       transition all .3s
       &:hover
-        box-shadow: 0 0 10px #fff
+          box-shadow: 0 0 10px #fff
+
+@media screen and (max-width: 1024px)
+    .winner
+        font-size 16px
+        .avatar,
+        .name,
+        .poker
+           margin-bottom 15px
+      
+  
 
 @keyframes shine-box
     0%
