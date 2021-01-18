@@ -300,7 +300,9 @@ export default function app() {
                     />)
                 }
                 {
-                    enableSignUp ? <div className="sign-up-mask">报名进行中 投喂任意礼物参加抽奖</div> : null
+                    enableSignUp ? <div className="sign-up-mask">
+                        <p>报名进行中<br />投喂任意礼物参加抽奖</p>
+                    </div> : null
                 }
             </div>
         </div>
