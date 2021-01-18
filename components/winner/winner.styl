@@ -1,0 +1,58 @@
+.winner
+    user-select none
+    position fixed
+    top 0
+    bottom 0
+    left 0
+    right 0
+    display flex
+    flex-direction column
+    background alpha(#000, 0.8)
+    justify-content center
+    align-items center
+    color #fff
+    font-size 48px
+    .avatar
+      width 200px
+      height 200px
+      border 3px solid #fdf
+      margin-bottom 40px
+      box-shadow 0 0 10px #fdf
+      background #fff
+      border-radius 20px
+      animation shine-box 2s infinite
+    .name
+      animation shine-text 2s infinite
+    .avatar,
+    .name
+      margin-bottom 40px
+    .again
+      font-size 24px
+      border 3px solid #faf
+      color #faf
+      box-shadow: 0 0 3px #fff
+      background #fff
+      display flex
+      width 200px
+      height 60px
+      border-radius 50px
+      justify-content center
+      align-items center
+      transition all .3s
+      &:hover
+        box-shadow: 0 0 10px #fff
+
+@keyframes shine-box
+    0%
+        box-shadow 0 0 10px #fdf
+    50%
+        box-shadow 0 0 20px #f9f
+    100%
+        box-shadow 0 0 10px #fdf
+@keyframes shine-text
+    0%
+        text-shadow 0 0 10px #fdf
+    50%
+        text-shadow 0 0 20px #f9f
+    100%
+        text-shadow 0 0 10px #fdf

@@ -1,0 +1,26 @@
+.killer
+  display inline-flex
+  padding 5px
+  font-size 24px
+  border 2px solid currentColor
+  width 50px
+  height 50px
+  text-align center
+  margin 2px
+  border-radius 100%
+  justify-content center
+  align-items center
+  color #f9f
+  cursor pointer
+  &.red
+    color #f00
+  &.black
+    color #000
+  &.blue
+    color #66f
+  &:hover
+    text-shadow 0 0 5px currentColor
+    box-shadow 0 0 5px currentColor, 0 0 5px currentColor inset
+  &.disabled
+    color #ddd
+    pointer-events none
