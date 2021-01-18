@@ -226,7 +226,9 @@ export default function app() {
             <div className="navbar-end">
                 <div className="navbar-item">
                     <div className="control">
-                        <button className="button is-small is-link" onClick={mock}>报名10个假观众（测试用）</button>
+                        {
+                            roomId ? null : <button className="button is-small is-link" onClick={mock}>报名10个假观众（测试用）</button>
+                        }
                     </div>
                 </div>
                 <div className="navbar-item">
@@ -244,11 +246,13 @@ export default function app() {
                         {
                             connectionState
                                 ? <div className="control">
-                                    <button className="button is-small" onClick={e => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        changeRoom(null);}
-                                    }>
+                                    <button className="button is-small" onClick={
+                                        e => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            changeRoom(null);
+                                        }}
+                                    >
                                         结束报名
                                     </button>
                                 </div>
