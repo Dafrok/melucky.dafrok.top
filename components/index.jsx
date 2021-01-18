@@ -271,33 +271,38 @@ export default function app() {
                 </div>
             </div>
         </nav>
-        <div className="toolbar">
-            {
-                signs.map((item, index) => <Killer
-                    key={index}
-                    show={!isOnlySign && checkSign(members, index)}
-                    onClick={killBySign(index)}
-                >
-                    {item}
-                </Killer>)
-            }
-            {
-                numbers.map((item, index) => <Killer
-                    key={index}
-                    show={!isOnlyNumber && checkNumber(members, index)}
-                    onClick={killByNumber(index)}
-                >
-                    {item}
-                </Killer>)
-            }
-            <Killer show={true} onClick={killHalf}>1/2</Killer>
-        </div>
-        <div className="playground">
-            {
-                members.map(item => <Card key={item.uid} {...item}
-                    onClick={e => killById(item.uid)}
-                />)
-            }
+        <div className="main">
+            <div className="toolbar">
+                {
+                    signs.map((item, index) => <Killer
+                        key={index}
+                        show={!isOnlySign && checkSign(members, index)}
+                        onClick={killBySign(index)}
+                    >
+                        {item}
+                    </Killer>)
+                }
+                {
+                    numbers.map((item, index) => <Killer
+                        key={index}
+                        show={!isOnlyNumber && checkNumber(members, index)}
+                        onClick={killByNumber(index)}
+                    >
+                        {item}
+                    </Killer>)
+                }
+                <Killer show={true} onClick={killHalf}>1/2</Killer>
+            </div>
+            <div className="playground">
+                {
+                    members.map(item => <Card key={item.uid} {...item}
+                        onClick={e => killById(item.uid)}
+                    />)
+                }
+                {
+                    enableSignUp ? <div className="sign-up-mask">报名进行中 投喂任意礼物参加抽奖</div> : null
+                }
+            </div>
         </div>
         <Winner winner={winner} reset={reset} />
         {/* <div>
