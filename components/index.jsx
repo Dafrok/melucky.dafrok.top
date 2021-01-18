@@ -81,6 +81,7 @@ export default function app() {
     const [winner, setWinner] = useState(null);
     // const [danmu, setDanmu] = useState([]);
     const [members, setMembers] = useState([]);
+    const [enableSignUp, setEnableSignUp] = useState(false);
 
     const $ref = useRef(null);
 
@@ -90,9 +91,11 @@ export default function app() {
         }
         const connection = new Connection({roomId});
         connection.onConnect = function () {
+            setEnableSignUp(true);
             setConnectionState(1);
         }
         connection.onDisconnect = function () {
+            setEnableSignUp(false);
             setConnectionState(0);
         }
         connection.onDanmu = function (res) {
@@ -135,6 +138,7 @@ export default function app() {
 
     function changeRoom(str) {
         if (!str) {
+            setEnableSignUp(!enableSignUp);
             return setRoomId(str);
         }
         const id = parseInt(str);
@@ -227,7 +231,7 @@ export default function app() {
                 <div className="navbar-item">
                     <div className="control">
                         {
-                            roomId ? null : <button className="button is-small is-link" onClick={mock}>报名10个假观众（测试用）</button>
+                            (enableSignUp && !roomId) ? <button className="button is-small is-link" onClick={mock}>报名10个假观众（测试用）</button> : null
                         }
                     </div>
                 </div>
@@ -244,7 +248,7 @@ export default function app() {
                             />
                         </div>
                         {
-                            connectionState
+                            enableSignUp
                                 ? <div className="control">
                                     <button className="button is-small" onClick={
                                         e => {
