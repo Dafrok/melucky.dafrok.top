@@ -1,0 +1,18 @@
+/**
+ * @file Card
+ * @author Dafrok
+ */
+
+import * as React from 'react';
+import Card from '../card';
+
+export default function playground({members, killById}) {
+    return <div className="playground">
+        {
+            members.map(item => <Card {...item}
+                onClick={e => killById(item.uid)}
+            />)
+        }
+    </div>
+    ;
+}

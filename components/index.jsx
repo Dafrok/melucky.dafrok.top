@@ -4,30 +4,22 @@
  */
 import * as React from 'react';
 import Connection from '../lib/connection';
-import Card from './card';
+import Playground from './playgrond';
 import Winner from './winner';
-import cardImg from '../resources/card.png'
+import Header from './header';
+import SignUp from './sign-up';
 import {signs, numbers} from '../lib/config';
-import {shuffle} from '../lib/helper'
+import {
+    shuffle,
+    checkIfOnlyNumber,
+    checkIfOnlySign,
+    checkNumber,
+    checkSign
+} from '../lib/helper';
 import './index.styl';
 import Killer from './killer';
 
 const {useState, useRef, useEffect, useMemo} = React;
-
-function createMock(num) {
-    const data = [];
-    for (let i = 0; i < num; i++) {
-        data.push({
-            uid: Math.random(),
-            uname: `Melody-${+new Date()}`,
-            avatar: cardImg,
-            selected: false,
-            sign: parseInt(Math.random() * 4, 10),
-            number: parseInt(Math.random() * 13, 10),
-        })
-    }
-    return data;
-}
 
 class Poker {
     constructor({uid, uname, avatar}) {
@@ -41,43 +33,9 @@ class Poker {
     }
 }
 
-function checkSign(members, sign) {
-    let sum = 0;
-    let winner = null;
-    for (let member of members) {
-        if (!member.dead && member.sign === sign) {
-            winner = member;
-            sum++;
-        }
-    }
-    return !!sum;
-}
-
-function checkNumber(members, number) {
-    let sum = 0;
-    let winner = null;
-    for (let member of members) {
-        if (!member.dead && member.number === number) {
-            winner = member;
-            sum++;
-        }
-    }
-    return !!sum;
-}
-
-function checkIfOnlySign(members) {
-    const m = members.filter(member => !member.dead);
-    return !m.some(item => item.sign !== m[0].sign);
-}
-
-function checkIfOnlyNumber(members) {
-    const m = members.filter(member => !member.dead);
-    return !m.some(item => item.number !== m[0].number);
-}
-
 export default function app() {
     const [roomId, setRoomId] = useState(null);
-    const [connectionState, setConnectionState] = useState(0);
+    // const [connectionState, setConnectionState] = useState(0);
     const [winner, setWinner] = useState(null);
     // const [danmu, setDanmu] = useState([]);
     const [members, setMembers] = useState([]);
@@ -92,14 +50,14 @@ export default function app() {
         const connection = new Connection({roomId});
         connection.onConnect = function () {
             setEnableSignUp(true);
-            setConnectionState(1);
-        }
+            // setConnectionState(1);
+        };
         connection.onDisconnect = function () {
             setEnableSignUp(false);
-            setConnectionState(0);
-        }
+            // setConnectionState(0);
+        };
         connection.onDanmu = function (res) {
-            setMembers([...members]);
+            setMembers(members.concat());
             // danmu.unshift({
             //     id: res.info[0][7],
             //     uid: res.info[2][0],
@@ -114,7 +72,7 @@ export default function app() {
             // var utterThis = new SpeechSynthesisUtterance(`${res.info[2][1]}说: ${res.info[1]}`);
             // var synth = window.speechSynthesis;
             // synth.speak(utterThis);
-        }
+        };
         connection.onGift = function (res) {
             // res.data.giftId === 30607 小心心
             const {uid, uname, face} = res.data;
@@ -127,8 +85,8 @@ export default function app() {
                 uname,
                 avatar: face
             }));
-            setMembers([...members]);
-        }
+            setMembers(members.concat());
+        };
         connection.connect();
         return connection.disconnect;
     }, [roomId]);
@@ -141,7 +99,7 @@ export default function app() {
             setEnableSignUp(!enableSignUp);
             return setRoomId(str);
         }
-        const id = parseInt(str);
+        const id = parseInt(str, 10);
         if (Number.isNaN(id)) {
             const url = new URL(str);
             return setRoomId(url.pathname.slice(1));
@@ -152,7 +110,7 @@ export default function app() {
     function killById(uid) {
         const member = members.find(member => member.uid === uid);
         member.dead = true;
-        setMembers([...members]);
+        setMembers(members.concat());
         checkDead(members);
     }
 
@@ -163,7 +121,7 @@ export default function app() {
                     member.dead = true;
                 }
             });
-            setMembers([...members]);
+            setMembers(members.concat());
             checkDead(members);
         };
     }
@@ -175,18 +133,18 @@ export default function app() {
                     member.dead = true;
                 }
             });
-            setMembers([...members]);
+            setMembers(members.concat());
             checkDead(members);
         };
     }
 
     function killHalf() {
-        const half = shuffle(members.filter(item => !item.dead))
-        half.slice(parseInt(half.length / 2, 10))
+        const half = shuffle(members.filter(item => !item.dead));
+        half.slice(Math.floor(half.length / 2))
             .forEach(member => {
                 member.dead = true;
             });
-        setMembers([...members]);
+        setMembers(members.concat());
         checkDead(members);
     }
 
@@ -200,77 +158,30 @@ export default function app() {
             }
         }
         if (sum === 1) {
-            setWinner(winner)
+            setWinner(winner);
         }
     }
 
     function reset() {
         setWinner(null);
         const newMembers = shuffle(members).map(member => new Poker(member));
-        setMembers([...newMembers]);
+        setMembers(newMembers.concat());
     }
 
     function clean() {
         setWinner(null);
-        setMembers([])
-    }
-
-    function mock() {
-        const newMembers = createMock(10);
-        setMembers(members.concat(newMembers));
+        setMembers([]);
     }
 
     return <div>
-        <nav className="navbar has-shadow is-dark">
-            <div className="navbar-brand">
-                <div className="navbar-item">
-                    <h1 className="title has-text-white">MELucky</h1>
-                </div>
-            </div>
-            <div className="navbar-end">
-                <div className="navbar-item">
-                    <div className="control">
-                        {
-                            (enableSignUp && !roomId) ? <button className="button is-small is-link" onClick={mock}>报名10个假观众（测试用）</button> : null
-                        }
-                    </div>
-                </div>
-                <div className="navbar-item">
-                    <form className="field has-addons" onSubmit={e => {e.preventDefault(); changeRoom($ref.current.value)}}>
-                        <div className="control">
-                            <input
-                                defaultValue={roomId}
-                                ref={$ref}
-                                type="text"
-                                className="input is-small"
-                                type="text"
-                                placeholder="直播间地址"
-                            />
-                        </div>
-                        {
-                            enableSignUp
-                                ? <div className="control">
-                                    <button className="button is-small" onClick={
-                                        e => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            changeRoom(null);
-                                        }}
-                                    >
-                                        结束报名
-                                    </button>
-                                </div>
-                                : <div className="control">
-                                <button className="button is-small is-link">开启报名</button>
-                            </div>
-                        }
-                        <div className="control">
-                            <button className="button is-small is-danger" onClick={clean}>清空</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </nav>
+        <Header
+            enableSignUp={enableSignUp}
+            roomId={roomId}
+            changeRoom={changeRoom}
+            clean={clean}
+            members={members}
+            setMembers={setMembers}
+        />
         <div className="main">
             <div className="toolbar">
                 {
@@ -291,24 +202,14 @@ export default function app() {
                         {item}
                     </Killer>)
                 }
-                <Killer show={true} onClick={killHalf}>1/2</Killer>
+                <Killer show={members.filter(member => !member.dead).length > 1} onClick={killHalf}>1/2</Killer>
             </div>
-            <div className="playground">
-                {
-                    members.map(item => <Card key={item.uid} {...item}
-                        onClick={e => killById(item.uid)}
-                    />)
-                }
-                {
-                    enableSignUp ? <div className="sign-up-mask">
-                        <p>报名进行中<br />投喂任意礼物参加抽奖</p>
-                    </div> : null
-                }
-            </div>
+            <Playground
+                killById={killById}
+                members={members}
+            />
         </div>
-        <Winner winner={winner} reset={reset} />
-        {/* <div>
-            {danmu.map((item, index) => <div key={index}>{item.uname}：{item.text}</div>)}
-        </div> */}
+        <SignUp members={members} enableSignUp={enableSignUp} />
+        <Winner winner={winner} reset={reset} clean={clean} />
     </div>;
 }

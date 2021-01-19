@@ -11,7 +11,7 @@
     justify-content center
     align-items center
     color #fff
-    font-size 48px
+    font-size 28px
     z-index 1000
     transform translateZ(10px)
     .poker
@@ -31,27 +31,30 @@
     .name
       animation shine-text 2s infinite
     .poker
-      font-size 48px
+      font-size 28px
       text-shadow 0 0 5px #fff
     .avatar,
     .name,
     .poker
       margin-bottom 40px
-    .again
-      font-size 24px
-      border 3px solid #faf
-      color #faf
-      box-shadow: 0 0 3px #fff
-      background #fff
-      display flex
-      width 200px
-      height 60px
-      border-radius 50px
-      justify-content center
-      align-items center
-      transition all .3s
-      &:hover
-          box-shadow: 0 0 10px #fff
+    .controls
+      text-align center
+      .control
+        font-size 18px
+        border 2px solid currentColor
+        color #e9e
+        box-shadow: 0 0 3px #fff
+        background #fff
+        display inline-flex
+        width 150px
+        height 44px
+        border-radius 50px
+        justify-content center
+        align-items center
+        transition all .3s
+        margin 8px 15px
+        &:hover
+            box-shadow: 0 0 10px #fff
 
 @media screen and (max-width: 1024px)
     .winner
