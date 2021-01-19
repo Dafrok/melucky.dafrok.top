@@ -69,7 +69,7 @@ export default function header({members, enableSignUp, roomId, setMembers, chang
                     type="button"
                     disabled={enableSignUp}
                     onClick={clean}
-                >清空</button>
+                >结束</button>
             </div>
         </form>
     </nav>;
