@@ -7,7 +7,7 @@ import * as React from 'react';
 import './winner.styl';
 import {signs, numbers} from '../../lib/config';
 
-export default function winner({winner, reset}) {
+export default function winner({winner, reset, clean}) {
     if (!winner) {
         return null;
     }
@@ -18,6 +18,9 @@ export default function winner({winner, reset}) {
         </div>
         <img className="avatar" src={avatar} />
         <div className="name">{uname}</div>
-        <a className="again" onClick={reset}>再来一次</a>
-    </div>
+        <div className="controls">
+            <a className="control" onClick={reset}>重新开始</a>
+            <a className="control" onClick={clean}>结束抽奖</a>
+        </div>
+    </div>;
 }

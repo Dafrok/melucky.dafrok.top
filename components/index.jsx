@@ -209,7 +209,7 @@ export default function app() {
                 members={members}
             />
         </div>
-        <Winner winner={winner} reset={reset} />
+        <Winner winner={winner} reset={reset} clean={clean} />
         {/* <div>
             {danmu.map((item, index) => <div key={index}>{item.uname}：{item.text}</div>)}
         </div> */}
