@@ -7,6 +7,7 @@ import Connection from '../lib/connection';
 import Playground from './playgrond';
 import Winner from './winner';
 import Header from './header';
+import SignUp from './sign-up';
 import {signs, numbers} from '../lib/config';
 import {
     shuffle,
@@ -204,14 +205,11 @@ export default function app() {
                 <Killer show={members.filter(member => !member.dead).length > 1} onClick={killHalf}>1/2</Killer>
             </div>
             <Playground
-                enableSignUp={enableSignUp}
                 killById={killById}
                 members={members}
             />
         </div>
+        <SignUp members={members} enableSignUp={enableSignUp} />
         <Winner winner={winner} reset={reset} clean={clean} />
-        {/* <div>
-            {danmu.map((item, index) => <div key={index}>{item.uname}：{item.text}</div>)}
-        </div> */}
     </div>;
 }
