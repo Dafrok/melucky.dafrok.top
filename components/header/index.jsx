@@ -47,24 +47,22 @@ export default function header({members, enableSignUp, roomId, setMembers, chang
                         </div>
                     : null
             }
-            {
-                !enableSignUp ? <div className="control">
-                    <div className="select is-small">
-                        <select onChange={changeGift} value={gift}>
-                            {
-                                gifts.map(
-                                    item => <option
-                                        key={item.value}
-                                        value={item.value}
-                                    >
-                                        {item.name}
-                                    </option>   
-                                )
-                            }
-                        </select>
-                    </div>
-                </div> : null
-            }
+            <div className="control">
+                <div className="select is-small">
+                    <select onChange={changeGift} value={gift} disabled={enableSignUp}>
+                        {
+                            gifts.map(
+                                item => <option
+                                    key={item.value}
+                                    value={item.value}
+                                >
+                                    {item.name}
+                                </option>   
+                            )
+                        }
+                    </select>
+                </div>
+            </div>
             {
                 enableSignUp
                     ? <div className="control">
