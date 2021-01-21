@@ -41,6 +41,7 @@ export default function app() {
     const [members, setMembers] = useState([]);
     const [enableSignUp, setEnableSignUp] = useState(false);
     const [gift, setGift] = useState(30649);
+    const currentGift = gift;
 
     useEffect(() => {
         if (!roomId) {
@@ -76,9 +77,9 @@ export default function app() {
             // 20004: 吃瓜
             // res.data.giftId === 30607 小心心
             // res.data.giftId === 30649 泡泡机
-            console.log('#', gift, res.data.giftId);
-            if (gift) {
-                res.data.giftId !== gift;
+            console.log('#', currentGift, res.data.giftId);
+            if (currentGift) {
+                res.data.giftId !== currentGift;
                 return;
             }
             const {uid, uname, face} = res.data;
@@ -95,7 +96,7 @@ export default function app() {
         };
         connection.connect();
         return connection.disconnect;
-    }, [roomId]);
+    }, [roomId, gift]);
 
     const isOnlySign = useMemo(() => checkIfOnlySign(members), [members]);
     const isOnlyNumber = useMemo(() => checkIfOnlyNumber(members), [members]);
