@@ -40,8 +40,7 @@ export default function app() {
     // const [danmu, setDanmu] = useState([]);
     const [members, setMembers] = useState([]);
     const [enableSignUp, setEnableSignUp] = useState(false);
-
-    const $ref = useRef(null);
+    const [gift, setGift] = useState(30649);
 
     useEffect(() => {
         if (!roomId) {
@@ -74,7 +73,13 @@ export default function app() {
             // synth.speak(utterThis);
         };
         connection.onGift = function (res) {
+            // 20004: 吃瓜
             // res.data.giftId === 30607 小心心
+            // res.data.giftId === 30649 泡泡机
+            if (gift) {
+                res.data.giftId !== gift;
+                return;
+            }
             const {uid, uname, face} = res.data;
             // console.log('#gifted', res.data);
             if (members.find(member => member.uid === uid)) {
@@ -173,6 +178,10 @@ export default function app() {
         setMembers([]);
     }
 
+    function changeGift(e) {
+        setGift(e.target.value);
+    }
+
     return <div>
         <Header
             enableSignUp={enableSignUp}
@@ -181,6 +190,8 @@ export default function app() {
             clean={clean}
             members={members}
             setMembers={setMembers}
+            changeGift={changeGift}
+            gift={gift}
         />
         <div className="main">
             <div className="toolbar">

@@ -4,12 +4,13 @@
  */
 
 import * as React from 'react';
+import {gifts} from '../../lib/config';
 import {createMock} from '../../lib/helper';
 import './header.styl';
 
 const {useRef} = React;
 
-export default function header({members, enableSignUp, roomId, setMembers, changeRoom, clean}) {
+export default function header({members, enableSignUp, roomId, setMembers, changeRoom, clean, gift, changeGift}) {
 
     function mock() {
         const newMembers = createMock(10);
@@ -46,6 +47,22 @@ export default function header({members, enableSignUp, roomId, setMembers, chang
                         </div>
                     : null
             }
+            <div className="control">
+                <div className="select is-small">
+                    <select onChange={changeGift} value={gift}>
+                        {
+                            gifts.map(
+                                item => <option
+                                    key={item.id}
+                                    value={item.value}
+                                >
+                                    {item.name}
+                                </option>   
+                            )
+                        }
+                    </select>
+                </div>
+            </div>
             {
                 enableSignUp
                     ? <div className="control">

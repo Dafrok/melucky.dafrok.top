@@ -6,7 +6,7 @@ import './killer.styl';
 import * as React from 'react';
 
 export default function killer({children, onClick, show}) {
-    let color = '#fdf'
+    let color = '';
     switch (children) {
         case '♠':
         case '♣': {
