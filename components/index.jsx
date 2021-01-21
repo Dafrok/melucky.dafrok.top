@@ -78,7 +78,7 @@ export default function app() {
             // res.data.giftId === 30649 泡泡机
             console.log('#', gift, res.data.giftId, gift === res.data.giftId);
             if (gift) {
-                if (res.data.giftId !== currentGift) {
+                if (res.data.giftId !== gift) {
                     return;
                 }
             }
