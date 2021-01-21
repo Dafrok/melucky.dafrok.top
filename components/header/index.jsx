@@ -53,7 +53,7 @@ export default function header({members, enableSignUp, roomId, setMembers, chang
                         {
                             gifts.map(
                                 item => <option
-                                    key={item.id}
+                                    key={item.value}
                                     value={item.value}
                                 >
                                     {item.name}

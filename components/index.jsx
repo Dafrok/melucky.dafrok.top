@@ -76,6 +76,7 @@ export default function app() {
             // 20004: 吃瓜
             // res.data.giftId === 30607 小心心
             // res.data.giftId === 30649 泡泡机
+            console.log('#', gift, res.data.giftId);
             if (gift) {
                 res.data.giftId !== gift;
                 return;
@@ -179,7 +180,7 @@ export default function app() {
     }
 
     function changeGift(e) {
-        setGift(e.target.value);
+        setGift(parseInt(e.target.value, 10));
     }
 
     return <div>
