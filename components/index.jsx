@@ -42,17 +42,26 @@ export default function app() {
     const [enableSignUp, setEnableSignUp] = useState(false);
     const [gift, setGift] = useState(30649);
 
+    function startSignUp() {
+        setEnableSignUp(true);
+    }
+
+    function stopSignUp() {
+        setEnableSignUp(false);
+        setMembers(shuffle(members));
+    }
+
     useEffect(() => {
         if (!roomId) {
             return;
         }
         const connection = new Connection({roomId});
         connection.onConnect = function () {
-            setEnableSignUp(true);
+            startSignUp();
             // setConnectionState(1);
         };
         connection.onDisconnect = function () {
-            setEnableSignUp(false);
+            stopSignUp();
             // setConnectionState(0);
         };
         connection.onDanmu = function (res) {
@@ -103,7 +112,7 @@ export default function app() {
 
     function changeRoom(str) {
         if (!str) {
-            setEnableSignUp(!enableSignUp);
+            enableSignUp ? stopSignUp() : startSignUp();
             return setRoomId(str);
         }
         const id = parseInt(str, 10);
