@@ -85,11 +85,9 @@ export default function app() {
             // 20004: 吃瓜
             // res.data.giftId === 30607 小心心
             // res.data.giftId === 30649 泡泡机
-            console.log('#', gift, res.data.giftId, gift === res.data.giftId);
-            if (gift) {
-                if (res.data.giftId !== gift) {
-                    return;
-                }
+            console.log('#Gift: ', gift, res.data.giftId, res.data.giftName, gift === res.data.giftId);
+            if (gift != 0 && res.data.giftId !== gift) {
+                return;
             }
             const {uid, uname, face} = res.data;
             // console.log('#gifted', res.data);
@@ -227,7 +225,7 @@ export default function app() {
                 <Killer show={members.filter(member => !member.dead).length > 1} onClick={killHalf}>1/2</Killer>
             </div>
             <Playground
-                killById={killById}
+                killById={killById} 
                 members={members}
             />
         </div>

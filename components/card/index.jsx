@@ -11,9 +11,7 @@ export default function card({avatar, uname, uid, sign, number, selected, dead, 
         <div className="forward">
             <div className={`sign ${sign === 1 || sign === 3 ? 'red' : 'black'}`}>{signs[sign]}{numbers[number]}</div>
             <div className="avatar">
-                <div className="inner-image" style={{
-                    backgroundImage: `url(${avatar})`
-                }} ></div>
+                <img className="inner-image" src={avatar} />
             </div>
             <div className="uname">{uname}</div>
         </div>
