@@ -4,13 +4,17 @@
  */
 
 import * as React from 'react';
-import Loading from '../loading';
+import {gifts} from '../../lib/config';
+import loadingImg from '../../resources/loading.gif';
 import './style.styl';
 
-export default function loading({enableSignUp, members}) {
+export default function signUp({enableSignUp, members, gift = 0}) {
+    const giftId = gift;
+    const currentGift = React.useMemo(() => {
+        return gifts.find(gift => gift.value === giftId)
+    }, [giftId]);
     return enableSignUp ? <div className="sign-up-mask">
-        <p>报名进行中&nbsp;&nbsp;<Loading size={28} /></p>
-        <p>参与人数：{members.length}</p>
-        <p>投喂任意礼物参加抽奖</p>
+        <p><img src={loadingImg} /></p>
+        <p>投喂<span className="gift-name">{currentGift.name}</span>就能{members.length ? `和 ${members.length} 位马里兰乐园的小伙伴一起` : null}参加抽奖，快来报名哟 ♪</p>
     </div> : null;
 }

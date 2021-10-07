@@ -229,7 +229,7 @@ export default function app() {
                 members={members}
             />
         </div>
-        <SignUp members={members} enableSignUp={enableSignUp} />
+        <SignUp gift={gift} members={members} enableSignUp={enableSignUp} />
         <Winner winner={winner} reset={reset} clean={clean} />
     </div>;
 }
