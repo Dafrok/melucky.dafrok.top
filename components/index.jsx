@@ -7,6 +7,7 @@ import Connection from '../lib/connection';
 import Playground from './playgrond';
 import Winner from './winner';
 import Header from './header';
+import Participants from './participants';
 import SignUp from './sign-up';
 import {signs, numbers} from '../lib/config';
 import {
@@ -18,20 +19,10 @@ import {
 } from '../lib/helper';
 import './index.styl';
 import Killer from './killer';
+import { setParticipant } from '../lib/storage';
+import { Poker } from '../lib/poker';
 
 const {useState, useRef, useEffect, useMemo} = React;
-
-class Poker {
-    constructor({uid, uname, avatar}) {
-        this.uid = uid;
-        this.uname = uname;
-        this.avatar = avatar,
-        this.selected = false;
-        this.sign = parseInt(Math.random() * 4, 10);
-        this.number = parseInt(Math.random() * 13, 10);
-        this.dead = false;
-    }
-}
 
 export default function app() {
     const [roomId, setRoomId] = useState(null);
@@ -65,7 +56,7 @@ export default function app() {
             // setConnectionState(0);
         };
         connection.onDanmu = function (res) {
-            setMembers(members.concat());
+            // setMembers(members.concat());
             // danmu.unshift({
             //     id: res.info[0][7],
             //     uid: res.info[2][0],
@@ -94,12 +85,13 @@ export default function app() {
             if (members.find(member => member.uid === uid)) {
                 return;
             }
-            members.push(new Poker({
+            const member = {
                 uid,
                 uname,
                 avatar: face
-            }));
-            setMembers(members.concat());
+            };
+            setParticipant(member);
+            addMember(member);
         };
         connection.connect();
         return connection.disconnect;
@@ -191,16 +183,26 @@ export default function app() {
         setGift(parseInt(e.target.value, 10));
     }
 
+    function addMember(participant) {
+        if (members.find(member => member.uid === participant.uid)) {
+            return;
+        }
+        members.push(new Poker(participant));
+        setMembers(members.concat());
+    }
+
     return <div>
         <Header
             enableSignUp={enableSignUp}
             roomId={roomId}
             changeRoom={changeRoom}
             clean={clean}
-            members={members}
-            setMembers={setMembers}
+            addMember={addMember}
             changeGift={changeGift}
             gift={gift}
+        />
+        <Participants
+            addMember={addMember}
         />
         <div className="main">
             <div className="toolbar">

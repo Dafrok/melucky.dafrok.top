@@ -10,11 +10,10 @@ import './header.styl';
 
 const {useRef} = React;
 
-export default function header({members, enableSignUp, roomId, setMembers, changeRoom, clean, gift, changeGift}) {
+export default function header({enableSignUp, roomId, addMember, changeRoom, clean, gift, changeGift}) {
 
     function mock() {
-        const newMembers = createMock(10);
-        setMembers(members.concat(newMembers));
+        addMember(createMock());
     }
 
     const $ref = useRef(null);
