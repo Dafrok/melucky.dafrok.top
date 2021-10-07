@@ -19,7 +19,7 @@ import {
 } from '../lib/helper';
 import './index.styl';
 import Killer from './killer';
-import { setParticipant } from '../lib/storage';
+import { getAllParticipants, setParticipant, removeParticipant } from '../lib/storage';
 import { Poker } from '../lib/poker';
 
 const {useState, useRef, useEffect, useMemo} = React;
@@ -32,6 +32,19 @@ export default function app() {
     const [members, setMembers] = useState([]);
     const [enableSignUp, setEnableSignUp] = useState(false);
     const [gift, setGift] = useState(30649);
+    const [participants, setParticipants] = useState(getAllParticipants());
+
+    function addParticipant(participant) {
+        participants[participant.uid] = participant;
+        setParticipants({...participants});
+        setParticipant(participant);
+    }
+
+    function deleteParticipant(uid) {
+        delete participants[uid];
+        setParticipants({...participants});
+        removeParticipant(uid);
+    }
 
     function startSignUp() {
         setEnableSignUp(true);
@@ -185,7 +198,7 @@ export default function app() {
 
     function addMember(participant) {
         if (members.find(member => member.uid === participant.uid)) {
-            return;
+            return setMembers(members.concat());;
         }
         members.push(new Poker(participant));
         setMembers(members.concat());
@@ -202,6 +215,9 @@ export default function app() {
             gift={gift}
         />
         <Participants
+            participants={participants}
+            addParticipant={addParticipant}
+            deleteParticipant={deleteParticipant}
             addMember={addMember}
         />
         <div className="main">
