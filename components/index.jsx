@@ -68,6 +68,7 @@ export default function app() {
             stopSignUp();
         };
         connection.onReconnect = function () {
+            stopSignUp();
             setRoomId(roomId);
         }
         connection.onDanmu = function (res) {
