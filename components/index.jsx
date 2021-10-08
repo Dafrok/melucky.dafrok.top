@@ -63,12 +63,13 @@ export default function app() {
         const connection = new Connection({roomId});
         connection.onConnect = function () {
             startSignUp();
-            // setConnectionState(1);
         };
         connection.onDisconnect = function () {
             stopSignUp();
-            // setConnectionState(0);
         };
+        connection.onReconnect = function () {
+            setRoomId(roomId);
+        }
         connection.onDanmu = function (res) {
             // setMembers(members.concat());
             // danmu.unshift({
@@ -87,10 +88,7 @@ export default function app() {
             // synth.speak(utterThis);
         };
         connection.onGift = function (res) {
-            // 20004: 吃瓜
-            // res.data.giftId === 30607 小心心
-            // res.data.giftId === 30649 泡泡机
-            console.log('#Gift: ', gift, res.data.giftId, res.data.giftName, gift === res.data.giftId);
+            console.log('#Gift: ', gift, res.data.giftName, res.data.giftId, gift === res.data.giftId);
             if (gift != 0 && res.data.giftId !== gift) {
                 return;
             }
