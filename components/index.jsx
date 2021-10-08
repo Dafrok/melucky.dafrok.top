@@ -51,6 +51,7 @@ export default function app() {
     }
 
     function stopSignUp() {
+        setRoomId(null);
         setEnableSignUp(false);
         setMembers(shuffle(members));
     }
