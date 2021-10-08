@@ -103,7 +103,7 @@ export default function app() {
                 uname,
                 avatar: face
             };
-            setParticipant(member);
+            addParticipant(member);
             addMember(member);
         };
         connection.connect();
