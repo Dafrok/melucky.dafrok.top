@@ -222,6 +222,7 @@ export default function app() {
         />
         <div className="main">
             <div className="toolbar">
+                <Killer show onClick={() => setMembers(shuffle(members))}>洗牌</Killer>
                 {
                     signs.map((item, index) => <Killer
                         key={index}
