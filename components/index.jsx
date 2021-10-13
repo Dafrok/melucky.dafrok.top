@@ -138,8 +138,8 @@ export default function app() {
     function killById(uid) {
         const member = members.find(member => member.uid === uid);
         if (member.winner) {
-            member.winner = false;
             member.award = true;
+            member.winner = false;
         }
         member.dead = true;
         setMembers(members.concat());
@@ -193,6 +193,10 @@ export default function app() {
             const winner = currentMembers[0];
             winner.winner = true;
             setMembers(members.concat());
+        }
+        if (currentMembers.length === 0) {
+            console.log(members, members.filter(member => member.award))
+            const winner = members.find(member => member.award)
             setWinner(winner);
         }
     }
@@ -266,6 +270,6 @@ export default function app() {
             />
         </div>
         <SignUp gift={gift} members={members} enableSignUp={enableSignUp} />
-        {/* <Winner winner={winner} reset={reset} clean={clean} /> */}
+        <Winner winner={winner} reset={reset} clean={clean} />
     </div>;
 }
