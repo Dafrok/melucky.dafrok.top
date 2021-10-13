@@ -145,6 +145,13 @@ export default function app() {
         };
     }
 
+    function killRandom() {
+        const currentMembers = members.filter(member => !member.dead)
+        currentMembers[parseInt(Math.random() * currentMembers.length, 10)].dead = true;
+        setMembers(members.concat());
+        checkDead(members);
+    }
+
     function killByNumber(number) {
         return () => {
             members.forEach(member => {
@@ -242,6 +249,7 @@ export default function app() {
                     </Killer>)
                 }
                 <Killer show={members.filter(member => !member.dead).length > 1} onClick={killHalf}>1/2</Killer>
+                <Killer show onClick={killRandom}>随机</Killer>
             </div>
             <Playground
                 killById={killById} 
