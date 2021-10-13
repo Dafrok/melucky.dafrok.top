@@ -22,7 +22,7 @@ import Killer from './killer';
 import { getAllParticipants, setParticipant, removeParticipant } from '../lib/storage';
 import { Poker } from '../lib/poker';
 
-const {useState, useRef, useEffect, useMemo} = React;
+const {useState, useEffect, useMemo} = React;
 
 export default function app() {
     const [roomId, setRoomId] = useState(null);
@@ -56,11 +56,14 @@ export default function app() {
         setMembers(shuffle(members));
     }
 
-    useEffect(() => {
+    const connection = useMemo(() => {
         if (!roomId) {
             return;
         }
-        const connection = new Connection({roomId});
+        return new Connection({roomId})
+    }, [roomId, gift]);
+
+    if (connection) {
         connection.onConnect = function () {
             startSignUp();
         };
@@ -106,9 +109,15 @@ export default function app() {
             addParticipant(member);
             addMember(member);
         };
+    }
+
+    useEffect(() => {
+        if (!connection) {
+            return;
+        }
         connection.connect();
         return connection.disconnect;
-    }, [roomId, gift]);
+    }, [roomId, gift])
 
     const isOnlySign = useMemo(() => checkIfOnlySign(members), [members]);
     const isOnlyNumber = useMemo(() => checkIfOnlyNumber(members), [members]);
@@ -128,6 +137,10 @@ export default function app() {
 
     function killById(uid) {
         const member = members.find(member => member.uid === uid);
+        if (member.winner) {
+            member.winner = false;
+            member.award = true;
+        }
         member.dead = true;
         setMembers(members.concat());
         checkDead(members);
@@ -175,15 +188,11 @@ export default function app() {
     }
 
     function checkDead(members) {
-        let sum = 0;
-        let winner = null;
-        for (let member of members) {
-            if (!member.dead) {
-                winner = member;
-                sum++;
-            }
-        }
-        if (sum === 1) {
+        const currentMembers = members.filter(member => !member.dead);
+        if (currentMembers.length === 1) {
+            const winner = currentMembers[0];
+            winner.winner = true;
+            setMembers(members.concat());
             setWinner(winner);
         }
     }
@@ -257,6 +266,6 @@ export default function app() {
             />
         </div>
         <SignUp gift={gift} members={members} enableSignUp={enableSignUp} />
-        <Winner winner={winner} reset={reset} clean={clean} />
+        {/* <Winner winner={winner} reset={reset} clean={clean} /> */}
     </div>;
 }

@@ -26,7 +26,7 @@ export default function header({enableSignUp, roomId, addMember, changeRoom, cle
         >
             <div className="control is-expanded">
                 <input
-                    defaultValue={roomId}
+                    defaultValue="345784"
                     ref={$ref}
                     type="text"
                     className="input is-small is-fullwidth"
