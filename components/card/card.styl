@@ -15,8 +15,9 @@
     transform scale(1.1) rotateY(180deg)
   &.win
     animation win 2s infinite
-  &.dead
+  &.show
     transform rotateY(0deg)
+  &.dead
     .forward::after
       content '出局'
       position absolute

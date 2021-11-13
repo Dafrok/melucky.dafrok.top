@@ -160,6 +160,9 @@ export default function app() {
 
     function killRandom() {
         const currentMembers = members.filter(member => !member.dead)
+        if (!currentMembers.length) {
+            return;
+        }
         currentMembers[parseInt(Math.random() * currentMembers.length, 10)].dead = true;
         setMembers(members.concat());
         checkDead(members);
@@ -195,7 +198,6 @@ export default function app() {
             setMembers(members.concat());
         }
         if (currentMembers.length === 0) {
-            console.log(members, members.filter(member => member.award))
             const winner = members.find(member => member.award)
             setWinner(winner);
         }
@@ -243,7 +245,7 @@ export default function app() {
         <div className="main">
             <div className="toolbar">
                 <Killer show onClick={() => setMembers(shuffle(members))}>洗牌</Killer>
-                {
+                {/* {
                     signs.map((item, index) => <Killer
                         key={index}
                         show={!isOnlySign && checkSign(members, index)}
@@ -260,13 +262,14 @@ export default function app() {
                     >
                         {item}
                     </Killer>)
-                }
+                } */}
                 <Killer show={members.filter(member => !member.dead).length > 1} onClick={killHalf}>1/2</Killer>
                 <Killer show onClick={killRandom}>随机</Killer>
             </div>
             <Playground
                 killById={killById} 
                 members={members}
+                enableSignUp={enableSignUp}
             />
         </div>
         <SignUp gift={gift} members={members} enableSignUp={enableSignUp} />
