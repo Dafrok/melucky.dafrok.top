@@ -45,6 +45,7 @@ export default function participants({participants, addParticipant, deletePartic
                 <input
                     style={{width: 135}}
                     placeholder="请输入昵称"
+                    value={uname}
                     onChange={changeUname}
                 />
                 <button onClick={manualAddParticipant}>+</button>
